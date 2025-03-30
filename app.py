@@ -2,7 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+
+# TÜM domainlerden isteğe izin ver
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/api/puan-hesapla', methods=['POST'])
 def puan_hesapla():
@@ -12,10 +14,9 @@ def puan_hesapla():
 
     net = dogru - (yanlis / 4)
     
-    # Gerçek YKS puan formülüne göre hesaplama
-    puan = 100 + (net * 4)  # Basit örnek bir hesaplama (gerçek formül daha karmaşıktır!)
+    puan = 100 + (net * 4)
 
     return jsonify({"sonuc": round(puan, 2)})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True)
